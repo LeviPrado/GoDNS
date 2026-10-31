@@ -7,6 +7,7 @@ import (
 	"strings"
 )
 
+//go:embed default.txt
 var listaPadrao []byte
 
 type Blocklist struct {
@@ -23,16 +24,15 @@ func Nova() *Blocklist {
 
 func (b *Blocklist) carregarLista(dados []byte) {
 	scanner := bufio.NewScanner(bytes.NewReader(dados))
-
 	for scanner.Scan() {
 		linha := strings.TrimSpace(scanner.Text())
-
 		if linha != "" && !strings.HasPrefix(linha, "#") {
 			b.dominios[strings.ToLower(linha)] = struct{}{}
 		}
 	}
 }
 
+// Bloqueado verifica se o domínio ou qualquer domínio pai está na lista
 func (b *Blocklist) Bloqueado(dominio string) bool {
 	dominio = strings.ToLower(strings.TrimSuffix(dominio, "."))
 
@@ -45,7 +45,6 @@ func (b *Blocklist) Bloqueado(dominio string) bool {
 		if ponto == -1 {
 			break
 		}
-
 		dominio = dominio[ponto+1:]
 	}
 

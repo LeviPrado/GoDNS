@@ -1,0 +1,4 @@
+# Lista de bloqueio para testes
+ads.site.com
+doubleclick.net
+anuncios.com.br
